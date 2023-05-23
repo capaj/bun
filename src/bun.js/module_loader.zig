@@ -1743,7 +1743,6 @@ pub const ModuleLoader = struct {
                         .hash = 0,
                     };
                 },
-
                 .@"node:fs/promises" => {
                     return ResolvedSource{
                         .allocator = null,
