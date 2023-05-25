@@ -14,6 +14,95 @@ export default [
     proto: {},
   }),
   define({
+    name: "DescribeScope",
+    construct: true,
+    noConstructor: true,
+    call: true,
+    finalize: true,
+    JSType: "0b11101110",
+    values: ["callbackValue"],
+    configurable: false,
+    klass: {},
+    proto: {
+      skip: {
+        fn: "skip",
+        length: 2,
+      },
+      only: {
+        fn: "only",
+        length: 2,
+      },
+    },
+  }),
+  define({
+    name: "BunTestModule",
+    construct: false,
+    noConstructor: true,
+    finalize: true,
+    JSType: "0b11101110",
+    configurable: false,
+    klass: {},
+    proto: {
+      test: {
+        fn: "createTest",
+        length: 2,
+      },
+      describe: {
+        fn: "createDescribe",
+        length: 2,
+      },
+      it: {
+        fn: "createTest",
+        length: 2,
+      },
+      expect: {
+        fn: "createExpect",
+        length: 1,
+      },
+      afterAll: {
+        fn: "afterAllCallback",
+        length: 1,
+      },
+      afterEach: {
+        fn: "afterEachCallback",
+        length: 1,
+      },
+      beforeAll: {
+        fn: "beforeAllCallback",
+        length: 1,
+      },
+      beforeEach: {
+        fn: "beforeEachCallback",
+        length: 1,
+      },
+    },
+  }),
+  define({
+    name: "TestScope",
+    construct: false,
+    noConstructor: true,
+    call: false,
+    fn: true,
+    finalize: true,
+    JSType: "JSC::InternalFunctionType",
+    configurable: false,
+    klass: {},
+    proto: {
+      skip: {
+        fn: "skip",
+        length: 2,
+      },
+      todo: {
+        fn: "todo",
+        length: 2,
+      },
+      only: {
+        fn: "only",
+        length: 2,
+      },
+    },
+  }),
+  define({
     name: "Expect",
     construct: true,
     call: true,

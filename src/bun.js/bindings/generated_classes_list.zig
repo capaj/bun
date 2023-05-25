@@ -34,4 +34,7 @@ pub const Classes = struct {
     pub const BuildArtifact = JSC.API.BuildArtifact;
     pub const BuildMessage = JSC.BuildMessage;
     pub const ResolveMessage = JSC.ResolveMessage;
+    pub const TestScope = JSC.Jest.TestScope;
+    pub const DescribeScope = JSC.Jest.DescribeScope;
+    pub const BunTestModule = JSC.API.BunTestModule;
 };

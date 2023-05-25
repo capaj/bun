@@ -535,6 +535,85 @@ pub const JSBuildMessage = struct {
         }
     }
 };
+pub const JSBunTestModule = struct {
+    const BunTestModule = Classes.BunTestModule;
+    const GetterType = fn (*BunTestModule, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const GetterTypeWithThisValue = fn (*BunTestModule, JSC.JSValue, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const SetterType = fn (*BunTestModule, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const SetterTypeWithThisValue = fn (*BunTestModule, JSC.JSValue, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const CallbackType = fn (*BunTestModule, *JSC.JSGlobalObject, *JSC.CallFrame) callconv(.C) JSC.JSValue;
+
+    /// Return the pointer to the wrapped object.
+    /// If the object does not match the type, return null.
+    pub fn fromJS(value: JSC.JSValue) ?*BunTestModule {
+        JSC.markBinding(@src());
+        return BunTestModule__fromJS(value);
+    }
+
+    /// Create a new instance of BunTestModule
+    pub fn toJS(this: *BunTestModule, globalObject: *JSC.JSGlobalObject) JSC.JSValue {
+        JSC.markBinding(@src());
+        if (comptime Environment.allow_assert) {
+            const value__ = BunTestModule__create(globalObject, this);
+            std.debug.assert(value__.as(BunTestModule).? == this); // If this fails, likely a C ABI issue.
+            return value__;
+        } else {
+            return BunTestModule__create(globalObject, this);
+        }
+    }
+
+    /// Modify the internal ptr to point to a new instance of BunTestModule.
+    pub fn dangerouslySetPtr(value: JSC.JSValue, ptr: ?*BunTestModule) bool {
+        JSC.markBinding(@src());
+        return BunTestModule__dangerouslySetPtr(value, ptr);
+    }
+
+    /// Detach the ptr from the thisValue
+    pub fn detachPtr(_: *BunTestModule, value: JSC.JSValue) void {
+        JSC.markBinding(@src());
+        std.debug.assert(BunTestModule__dangerouslySetPtr(value, null));
+    }
+
+    extern fn BunTestModule__fromJS(JSC.JSValue) ?*BunTestModule;
+    extern fn BunTestModule__getConstructor(*JSC.JSGlobalObject) JSC.JSValue;
+
+    extern fn BunTestModule__create(globalObject: *JSC.JSGlobalObject, ptr: ?*BunTestModule) JSC.JSValue;
+
+    extern fn BunTestModule__dangerouslySetPtr(JSC.JSValue, ?*BunTestModule) bool;
+
+    comptime {
+        if (@TypeOf(BunTestModule.finalize) != (fn (*BunTestModule) callconv(.C) void)) {
+            @compileLog("BunTestModule.finalize is not a finalizer");
+        }
+
+        if (@TypeOf(BunTestModule.afterAllCallback) != CallbackType)
+            @compileLog("Expected BunTestModule.afterAllCallback to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.afterAllCallback)));
+        if (@TypeOf(BunTestModule.afterEachCallback) != CallbackType)
+            @compileLog("Expected BunTestModule.afterEachCallback to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.afterEachCallback)));
+        if (@TypeOf(BunTestModule.beforeAllCallback) != CallbackType)
+            @compileLog("Expected BunTestModule.beforeAllCallback to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.beforeAllCallback)));
+        if (@TypeOf(BunTestModule.beforeEachCallback) != CallbackType)
+            @compileLog("Expected BunTestModule.beforeEachCallback to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.beforeEachCallback)));
+        if (@TypeOf(BunTestModule.createDescribe) != CallbackType)
+            @compileLog("Expected BunTestModule.createDescribe to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.createDescribe)));
+        if (@TypeOf(BunTestModule.createExpect) != CallbackType)
+            @compileLog("Expected BunTestModule.createExpect to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.createExpect)));
+        if (@TypeOf(BunTestModule.createTest) != CallbackType)
+            @compileLog("Expected BunTestModule.createTest to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.createTest)));
+        if (@TypeOf(BunTestModule.createTest) != CallbackType)
+            @compileLog("Expected BunTestModule.createTest to be a callback but received " ++ @typeName(@TypeOf(BunTestModule.createTest)));
+        if (!JSC.is_bindgen) {
+            @export(BunTestModule.afterAllCallback, .{ .name = "BunTestModulePrototype__afterAllCallback" });
+            @export(BunTestModule.afterEachCallback, .{ .name = "BunTestModulePrototype__afterEachCallback" });
+            @export(BunTestModule.beforeAllCallback, .{ .name = "BunTestModulePrototype__beforeAllCallback" });
+            @export(BunTestModule.beforeEachCallback, .{ .name = "BunTestModulePrototype__beforeEachCallback" });
+            @export(BunTestModule.createDescribe, .{ .name = "BunTestModulePrototype__createDescribe" });
+            @export(BunTestModule.createExpect, .{ .name = "BunTestModulePrototype__createExpect" });
+            @export(BunTestModule.createTest, .{ .name = "BunTestModulePrototype__createTest" });
+            @export(BunTestModule.finalize, .{ .name = "BunTestModuleClass__finalize" });
+        }
+    }
+};
 pub const JSCryptoHasher = struct {
     const CryptoHasher = Classes.CryptoHasher;
     const GetterType = fn (*CryptoHasher, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
@@ -646,6 +725,93 @@ pub const JSCryptoHasher = struct {
             @export(CryptoHasher.getByteLength, .{ .name = "CryptoHasherPrototype__getByteLength" });
             @export(CryptoHasher.hash, .{ .name = "CryptoHasherClass__hash" });
             @export(CryptoHasher.update, .{ .name = "CryptoHasherPrototype__update" });
+        }
+    }
+};
+pub const JSDescribeScope = struct {
+    const DescribeScope = Classes.DescribeScope;
+    const GetterType = fn (*DescribeScope, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const GetterTypeWithThisValue = fn (*DescribeScope, JSC.JSValue, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const SetterType = fn (*DescribeScope, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const SetterTypeWithThisValue = fn (*DescribeScope, JSC.JSValue, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const CallbackType = fn (*DescribeScope, *JSC.JSGlobalObject, *JSC.CallFrame) callconv(.C) JSC.JSValue;
+
+    /// Return the pointer to the wrapped object.
+    /// If the object does not match the type, return null.
+    pub fn fromJS(value: JSC.JSValue) ?*DescribeScope {
+        JSC.markBinding(@src());
+        return DescribeScope__fromJS(value);
+    }
+
+    extern fn DescribeScopePrototype__callbackValueSetCachedValue(JSC.JSValue, *JSC.JSGlobalObject, JSC.JSValue) void;
+
+    extern fn DescribeScopePrototype__callbackValueGetCachedValue(JSC.JSValue) JSC.JSValue;
+
+    /// `DescribeScope.callbackValue` setter
+    /// This value will be visited by the garbage collector.
+    pub fn callbackValueSetCached(thisValue: JSC.JSValue, globalObject: *JSC.JSGlobalObject, value: JSC.JSValue) void {
+        JSC.markBinding(@src());
+        DescribeScopePrototype__callbackValueSetCachedValue(thisValue, globalObject, value);
+    }
+
+    /// `DescribeScope.callbackValue` getter
+    /// This value will be visited by the garbage collector.
+    pub fn callbackValueGetCached(thisValue: JSC.JSValue) ?JSC.JSValue {
+        JSC.markBinding(@src());
+        const result = DescribeScopePrototype__callbackValueGetCachedValue(thisValue);
+        if (result == .zero)
+            return null;
+
+        return result;
+    }
+
+    /// Create a new instance of DescribeScope
+    pub fn toJS(this: *DescribeScope, globalObject: *JSC.JSGlobalObject) JSC.JSValue {
+        JSC.markBinding(@src());
+        if (comptime Environment.allow_assert) {
+            const value__ = DescribeScope__create(globalObject, this);
+            std.debug.assert(value__.as(DescribeScope).? == this); // If this fails, likely a C ABI issue.
+            return value__;
+        } else {
+            return DescribeScope__create(globalObject, this);
+        }
+    }
+
+    /// Modify the internal ptr to point to a new instance of DescribeScope.
+    pub fn dangerouslySetPtr(value: JSC.JSValue, ptr: ?*DescribeScope) bool {
+        JSC.markBinding(@src());
+        return DescribeScope__dangerouslySetPtr(value, ptr);
+    }
+
+    /// Detach the ptr from the thisValue
+    pub fn detachPtr(_: *DescribeScope, value: JSC.JSValue) void {
+        JSC.markBinding(@src());
+        std.debug.assert(DescribeScope__dangerouslySetPtr(value, null));
+    }
+
+    extern fn DescribeScope__fromJS(JSC.JSValue) ?*DescribeScope;
+    extern fn DescribeScope__getConstructor(*JSC.JSGlobalObject) JSC.JSValue;
+
+    extern fn DescribeScope__create(globalObject: *JSC.JSGlobalObject, ptr: ?*DescribeScope) JSC.JSValue;
+
+    extern fn DescribeScope__dangerouslySetPtr(JSC.JSValue, ?*DescribeScope) bool;
+
+    comptime {
+        if (@TypeOf(DescribeScope.finalize) != (fn (*DescribeScope) callconv(.C) void)) {
+            @compileLog("DescribeScope.finalize is not a finalizer");
+        }
+
+        if (@TypeOf(DescribeScope.only) != CallbackType)
+            @compileLog("Expected DescribeScope.only to be a callback but received " ++ @typeName(@TypeOf(DescribeScope.only)));
+        if (@TypeOf(DescribeScope.skip) != CallbackType)
+            @compileLog("Expected DescribeScope.skip to be a callback but received " ++ @typeName(@TypeOf(DescribeScope.skip)));
+        if (@TypeOf(DescribeScope.call) != StaticCallbackType)
+            @compileLog("Expected DescribeScope.call to be a static callback");
+        if (!JSC.is_bindgen) {
+            @export(DescribeScope.call, .{ .name = "DescribeScope__call" });
+            @export(DescribeScope.finalize, .{ .name = "DescribeScopeClass__finalize" });
+            @export(DescribeScope.only, .{ .name = "DescribeScopePrototype__only" });
+            @export(DescribeScope.skip, .{ .name = "DescribeScopePrototype__skip" });
         }
     }
 };
@@ -985,7 +1151,7 @@ pub const JSExpect = struct {
             @export(Expect.anything, .{ .name = "ExpectClass__anything" });
             @export(Expect.arrayContaining, .{ .name = "ExpectClass__arrayContaining" });
             @export(Expect.assertions, .{ .name = "ExpectClass__assertions" });
-            @export(Expect.call, .{ .name = "ExpectClass__call" });
+            @export(Expect.call, .{ .name = "Expect__call" });
             @export(Expect.constructor, .{ .name = "ExpectClass__construct" });
             @export(Expect.extend, .{ .name = "ExpectClass__extend" });
             @export(Expect.finalize, .{ .name = "ExpectClass__finalize" });
@@ -1114,7 +1280,7 @@ pub const JSExpectAny = struct {
         if (@TypeOf(ExpectAny.call) != StaticCallbackType)
             @compileLog("Expected ExpectAny.call to be a static callback");
         if (!JSC.is_bindgen) {
-            @export(ExpectAny.call, .{ .name = "ExpectAnyClass__call" });
+            @export(ExpectAny.call, .{ .name = "ExpectAny__call" });
             @export(ExpectAny.finalize, .{ .name = "ExpectAnyClass__finalize" });
         }
     }
@@ -4257,6 +4423,73 @@ pub const JSTLSSocket = struct {
         }
     }
 };
+pub const JSTestScope = struct {
+    const TestScope = Classes.TestScope;
+    const GetterType = fn (*TestScope, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const GetterTypeWithThisValue = fn (*TestScope, JSC.JSValue, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
+    const SetterType = fn (*TestScope, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const SetterTypeWithThisValue = fn (*TestScope, JSC.JSValue, *JSC.JSGlobalObject, JSC.JSValue) callconv(.C) bool;
+    const CallbackType = fn (*TestScope, *JSC.JSGlobalObject, *JSC.CallFrame) callconv(.C) JSC.JSValue;
+
+    /// Return the pointer to the wrapped object.
+    /// If the object does not match the type, return null.
+    pub fn fromJS(value: JSC.JSValue) ?*TestScope {
+        JSC.markBinding(@src());
+        return TestScope__fromJS(value);
+    }
+
+    /// Create a new instance of TestScope
+    pub fn toJS(this: *TestScope, globalObject: *JSC.JSGlobalObject) JSC.JSValue {
+        JSC.markBinding(@src());
+        if (comptime Environment.allow_assert) {
+            const value__ = TestScope__create(globalObject, this);
+            std.debug.assert(value__.as(TestScope).? == this); // If this fails, likely a C ABI issue.
+            return value__;
+        } else {
+            return TestScope__create(globalObject, this);
+        }
+    }
+
+    /// Modify the internal ptr to point to a new instance of TestScope.
+    pub fn dangerouslySetPtr(value: JSC.JSValue, ptr: ?*TestScope) bool {
+        JSC.markBinding(@src());
+        return TestScope__dangerouslySetPtr(value, ptr);
+    }
+
+    /// Detach the ptr from the thisValue
+    pub fn detachPtr(_: *TestScope, value: JSC.JSValue) void {
+        JSC.markBinding(@src());
+        std.debug.assert(TestScope__dangerouslySetPtr(value, null));
+    }
+
+    extern fn TestScope__fromJS(JSC.JSValue) ?*TestScope;
+    extern fn TestScope__getConstructor(*JSC.JSGlobalObject) JSC.JSValue;
+
+    extern fn TestScope__create(globalObject: *JSC.JSGlobalObject, ptr: ?*TestScope) JSC.JSValue;
+
+    extern fn TestScope__dangerouslySetPtr(JSC.JSValue, ?*TestScope) bool;
+
+    comptime {
+        if (@TypeOf(TestScope.finalize) != (fn (*TestScope) callconv(.C) void)) {
+            @compileLog("TestScope.finalize is not a finalizer");
+        }
+
+        if (@TypeOf(TestScope.only) != CallbackType)
+            @compileLog("Expected TestScope.only to be a callback but received " ++ @typeName(@TypeOf(TestScope.only)));
+        if (@TypeOf(TestScope.skip) != CallbackType)
+            @compileLog("Expected TestScope.skip to be a callback but received " ++ @typeName(@TypeOf(TestScope.skip)));
+        if (@TypeOf(TestScope.todo) != CallbackType)
+            @compileLog("Expected TestScope.todo to be a callback but received " ++ @typeName(@TypeOf(TestScope.todo)));
+        if (@TypeOf(TestScope.call) != CallbackType)
+            @compileLog("Expected TestScope.call to be a callback");
+        if (!JSC.is_bindgen) {
+            @export(TestScope.finalize, .{ .name = "TestScopeClass__finalize" });
+            @export(TestScope.only, .{ .name = "TestScopePrototype__only" });
+            @export(TestScope.skip, .{ .name = "TestScopePrototype__skip" });
+            @export(TestScope.todo, .{ .name = "TestScopePrototype__todo" });
+        }
+    }
+};
 pub const JSTextDecoder = struct {
     const TextDecoder = Classes.TextDecoder;
     const GetterType = fn (*TextDecoder, *JSC.JSGlobalObject) callconv(.C) JSC.JSValue;
@@ -4561,7 +4794,9 @@ comptime {
     _ = JSBlob;
     _ = JSBuildArtifact;
     _ = JSBuildMessage;
+    _ = JSBunTestModule;
     _ = JSCryptoHasher;
+    _ = JSDescribeScope;
     _ = JSDirent;
     _ = JSExpect;
     _ = JSExpectAny;
@@ -4585,6 +4820,7 @@ comptime {
     _ = JSSubprocess;
     _ = JSTCPSocket;
     _ = JSTLSSocket;
+    _ = JSTestScope;
     _ = JSTextDecoder;
     _ = JSTimeout;
     _ = JSTranspiler;

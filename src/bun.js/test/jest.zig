@@ -921,6 +921,83 @@ pub const Jest = struct {
     }
 };
 
+pub const BunTestModule = struct {
+    pub usingnamespace JSC.Codegen.JSBunTestModule;
+
+    describe: DescribeScope,
+
+    pub fn finalize(
+        this: *BunTestModule,
+    ) callconv(.C) void {
+        VirtualMachine.get().allocator.destroy(this);
+    }
+
+    pub fn createTest(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        TestScope.getCons
+        
+    }
+    pub fn createDescribe(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn createTest(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn createExpect(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn afterAllCallback(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn afterEachCallback(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn beforeAllCallback(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+    pub fn beforeEachCallback(
+        this: *BunTestModule,
+        globalObject: *JSC.JSGlobalObject,
+        callframe: *JSC.CallFrame
+    ) callconv(.C) JSC.JSValue {
+        
+        
+    }
+};
+
 pub const ExpectAny = struct {
     pub usingnamespace JSC.Codegen.JSExpectAny;
 
@@ -3230,6 +3307,7 @@ pub const Expect = struct {
 };
 
 pub const TestScope = struct {
+    pub usingnamespace JSC.Codegen.JSTestScope;
     label: string = "",
     parent: *DescribeScope,
     callback: js.JSValueRef,
@@ -3241,18 +3319,6 @@ pub const TestScope = struct {
     is_todo: bool = false,
     snapshot_count: usize = 0,
     timeout_millis: u32 = 0,
-
-    pub const Class = NewClass(
-        void,
-        .{ .name = "test" },
-        .{
-            .call = call,
-            .only = only,
-            .skip = skip,
-            .todo = todo,
-        },
-        .{},
-    );
 
     pub const Counter = struct {
         expected: u32 = 0,
@@ -3808,27 +3874,6 @@ pub const DescribeScope = struct {
         return this.execCallback(ctx, hook);
     }
 
-    pub fn skip(
-        this: *DescribeScope,
-        ctx: js.JSContextRef,
-        _: js.JSObjectRef,
-        _: js.JSObjectRef,
-        arguments: []const js.JSValueRef,
-        exception: js.ExceptionRef,
-    ) js.JSObjectRef {
-        return this.runDescribe(ctx, null, null, arguments, exception, true);
-    }
-
-    pub fn describe(
-        this: *DescribeScope,
-        ctx: js.JSContextRef,
-        _: js.JSObjectRef,
-        _: js.JSObjectRef,
-        arguments: []const js.JSValueRef,
-        exception: js.ExceptionRef,
-    ) js.JSObjectRef {
-        return runDescribe(this, ctx, null, null, arguments, exception, false);
-    }
 
     fn runDescribe(
         this: *DescribeScope,
@@ -3999,35 +4044,7 @@ pub const DescribeScope = struct {
     //     // }
     // }
 
-    pub fn createExpect(
-        _: *DescribeScope,
-        ctx: js.JSContextRef,
-        _: js.JSValueRef,
-        _: js.JSStringRef,
-        _: js.ExceptionRef,
-    ) js.JSObjectRef {
-        return JSC.Jest.Expect.getConstructor(ctx).asObjectRef();
-    }
-
-    pub fn createTest(
-        _: *DescribeScope,
-        ctx: js.JSContextRef,
-        _: js.JSValueRef,
-        _: js.JSStringRef,
-        _: js.ExceptionRef,
-    ) js.JSObjectRef {
-        return js.JSObjectMake(ctx, TestScope.Class.get().*, null);
-    }
-
-    pub fn createDescribe(
-        this: *DescribeScope,
-        ctx: js.JSContextRef,
-        _: js.JSValueRef,
-        _: js.JSStringRef,
-        _: js.ExceptionRef,
-    ) js.JSObjectRef {
-        return DescribeScope.Class.make(ctx, this);
-    }
+   
 };
 
 var active_test_expectation_counter: TestScope.Counter = undefined;

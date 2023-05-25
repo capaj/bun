@@ -17,11 +17,23 @@ void GlobalObject::initGeneratedLazyClasses() {
                  init.setStructure(WebCore::JSBuildMessage::createStructure(init.vm, init.global, init.prototype));
                  init.setConstructor(WebCore::JSBuildMessage::createConstructor(init.vm, init.global, init.prototype));
               });
+    m_JSBunTestModule.initLater(
+              [](LazyClassStructure::Initializer& init) {
+                 init.setPrototype(WebCore::JSBunTestModule::createPrototype(init.vm, reinterpret_cast<Zig::GlobalObject*>(init.global)));
+                 init.setStructure(WebCore::JSBunTestModule::createStructure(init.vm, init.global, init.prototype));
+                 
+              });
     m_JSCryptoHasher.initLater(
               [](LazyClassStructure::Initializer& init) {
                  init.setPrototype(WebCore::JSCryptoHasher::createPrototype(init.vm, reinterpret_cast<Zig::GlobalObject*>(init.global)));
                  init.setStructure(WebCore::JSCryptoHasher::createStructure(init.vm, init.global, init.prototype));
                  init.setConstructor(WebCore::JSCryptoHasher::createConstructor(init.vm, init.global, init.prototype));
+              });
+    m_JSDescribeScope.initLater(
+              [](LazyClassStructure::Initializer& init) {
+                 init.setPrototype(WebCore::JSDescribeScope::createPrototype(init.vm, reinterpret_cast<Zig::GlobalObject*>(init.global)));
+                 init.setStructure(WebCore::JSDescribeScope::createStructure(init.vm, init.global, init.prototype));
+                 
               });
     m_JSDirent.initLater(
               [](LazyClassStructure::Initializer& init) {
@@ -161,6 +173,12 @@ void GlobalObject::initGeneratedLazyClasses() {
                  init.setStructure(WebCore::JSTLSSocket::createStructure(init.vm, init.global, init.prototype));
                  
               });
+    m_JSTestScope.initLater(
+              [](LazyClassStructure::Initializer& init) {
+                 init.setPrototype(WebCore::JSTestScope::createPrototype(init.vm, reinterpret_cast<Zig::GlobalObject*>(init.global)));
+                 init.setStructure(WebCore::JSTestScope::createStructure(init.vm, init.global, init.prototype));
+                 
+              });
     m_JSTextDecoder.initLater(
               [](LazyClassStructure::Initializer& init) {
                  init.setPrototype(WebCore::JSTextDecoder::createPrototype(init.vm, reinterpret_cast<Zig::GlobalObject*>(init.global)));
@@ -186,7 +204,9 @@ void GlobalObject::visitGeneratedLazyClasses(GlobalObject *thisObject, Visitor& 
       thisObject->m_JSBlob.visit(visitor);  visitor.append(thisObject->m_JSBlobSetterValue);
       thisObject->m_JSBuildArtifact.visit(visitor);  visitor.append(thisObject->m_JSBuildArtifactSetterValue);
       thisObject->m_JSBuildMessage.visit(visitor);  visitor.append(thisObject->m_JSBuildMessageSetterValue);
+      thisObject->m_JSBunTestModule.visit(visitor);  visitor.append(thisObject->m_JSBunTestModuleSetterValue);
       thisObject->m_JSCryptoHasher.visit(visitor);  visitor.append(thisObject->m_JSCryptoHasherSetterValue);
+      thisObject->m_JSDescribeScope.visit(visitor);  visitor.append(thisObject->m_JSDescribeScopeSetterValue);
       thisObject->m_JSDirent.visit(visitor);  visitor.append(thisObject->m_JSDirentSetterValue);
       thisObject->m_JSExpect.visit(visitor);  visitor.append(thisObject->m_JSExpectSetterValue);
       thisObject->m_JSExpectAny.visit(visitor);  visitor.append(thisObject->m_JSExpectAnySetterValue);
@@ -210,6 +230,7 @@ void GlobalObject::visitGeneratedLazyClasses(GlobalObject *thisObject, Visitor& 
       thisObject->m_JSSubprocess.visit(visitor);  visitor.append(thisObject->m_JSSubprocessSetterValue);
       thisObject->m_JSTCPSocket.visit(visitor);  visitor.append(thisObject->m_JSTCPSocketSetterValue);
       thisObject->m_JSTLSSocket.visit(visitor);  visitor.append(thisObject->m_JSTLSSocketSetterValue);
+      thisObject->m_JSTestScope.visit(visitor);  visitor.append(thisObject->m_JSTestScopeSetterValue);
       thisObject->m_JSTextDecoder.visit(visitor);  visitor.append(thisObject->m_JSTextDecoderSetterValue);
       thisObject->m_JSTimeout.visit(visitor);  visitor.append(thisObject->m_JSTimeoutSetterValue);
       thisObject->m_JSTranspiler.visit(visitor);  visitor.append(thisObject->m_JSTranspilerSetterValue);

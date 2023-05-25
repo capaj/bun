@@ -1,8 +1,10 @@
 std::unique_ptr<IsoSubspace> m_subspaceForBlob;
 std::unique_ptr<IsoSubspace> m_subspaceForBlobConstructor;std::unique_ptr<IsoSubspace> m_subspaceForBuildArtifact;
 std::unique_ptr<IsoSubspace> m_subspaceForBuildMessage;
-std::unique_ptr<IsoSubspace> m_subspaceForBuildMessageConstructor;std::unique_ptr<IsoSubspace> m_subspaceForCryptoHasher;
-std::unique_ptr<IsoSubspace> m_subspaceForCryptoHasherConstructor;std::unique_ptr<IsoSubspace> m_subspaceForDirent;
+std::unique_ptr<IsoSubspace> m_subspaceForBuildMessageConstructor;std::unique_ptr<IsoSubspace> m_subspaceForBunTestModule;
+std::unique_ptr<IsoSubspace> m_subspaceForCryptoHasher;
+std::unique_ptr<IsoSubspace> m_subspaceForCryptoHasherConstructor;std::unique_ptr<IsoSubspace> m_subspaceForDescribeScope;
+std::unique_ptr<IsoSubspace> m_subspaceForDirent;
 std::unique_ptr<IsoSubspace> m_subspaceForDirentConstructor;std::unique_ptr<IsoSubspace> m_subspaceForExpect;
 std::unique_ptr<IsoSubspace> m_subspaceForExpectConstructor;std::unique_ptr<IsoSubspace> m_subspaceForExpectAny;
 std::unique_ptr<IsoSubspace> m_subspaceForFileSystemRouter;
@@ -25,6 +27,7 @@ std::unique_ptr<IsoSubspace> m_subspaceForServerWebSocketConstructor;std::unique
 std::unique_ptr<IsoSubspace> m_subspaceForStatsConstructor;std::unique_ptr<IsoSubspace> m_subspaceForSubprocess;
 std::unique_ptr<IsoSubspace> m_subspaceForTCPSocket;
 std::unique_ptr<IsoSubspace> m_subspaceForTLSSocket;
+std::unique_ptr<IsoSubspace> m_subspaceForTestScope;
 std::unique_ptr<IsoSubspace> m_subspaceForTextDecoder;
 std::unique_ptr<IsoSubspace> m_subspaceForTextDecoderConstructor;std::unique_ptr<IsoSubspace> m_subspaceForTimeout;
 std::unique_ptr<IsoSubspace> m_subspaceForTranspiler;

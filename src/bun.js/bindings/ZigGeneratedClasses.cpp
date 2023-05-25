@@ -1626,6 +1626,377 @@ void JSBuildMessage::visitOutputConstraintsImpl(JSCell* cell, Visitor& visitor)
 }
 
 DEFINE_VISIT_OUTPUT_CONSTRAINTS(JSBuildMessage);
+class JSBunTestModulePrototype final : public JSC::JSNonFinalObject {
+public:
+    using Base = JSC::JSNonFinalObject;
+
+    static JSBunTestModulePrototype* create(JSC::VM& vm, JSGlobalObject* globalObject, JSC::Structure* structure)
+    {
+        JSBunTestModulePrototype* ptr = new (NotNull, JSC::allocateCell<JSBunTestModulePrototype>(vm)) JSBunTestModulePrototype(vm, globalObject, structure);
+        ptr->finishCreation(vm, globalObject);
+        return ptr;
+    }
+
+    DECLARE_INFO;
+    template<typename CellType, JSC::SubspaceAccess>
+    static JSC::GCClient::IsoSubspace* subspaceFor(JSC::VM& vm)
+    {
+        return &vm.plainObjectSpace();
+    }
+    static JSC::Structure* createStructure(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::JSValue prototype)
+    {
+        return JSC::Structure::create(vm, globalObject, prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags), info());
+    }
+
+private:
+    JSBunTestModulePrototype(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure)
+        : Base(vm, structure)
+    {
+    }
+
+    void finishCreation(JSC::VM&, JSC::JSGlobalObject*);
+};
+
+extern "C" void BunTestModuleClass__finalize(void*);
+
+extern "C" EncodedJSValue BunTestModulePrototype__afterAllCallback(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__afterAllCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__afterEachCallback(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__afterEachCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__beforeAllCallback(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__beforeAllCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__beforeEachCallback(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__beforeEachCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__createDescribe(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__describeCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__createExpect(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__expectCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__createTest(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__itCallback);
+
+extern "C" EncodedJSValue BunTestModulePrototype__createTest(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(BunTestModulePrototype__testCallback);
+
+STATIC_ASSERT_ISO_SUBSPACE_SHARABLE(JSBunTestModulePrototype, JSBunTestModulePrototype::Base);
+
+static const HashTableValue JSBunTestModulePrototypeTableValues[] = {
+    { "afterAll"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__afterAllCallback, 1 } },
+    { "afterEach"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__afterEachCallback, 1 } },
+    { "beforeAll"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__beforeAllCallback, 1 } },
+    { "beforeEach"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__beforeEachCallback, 1 } },
+    { "describe"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__describeCallback, 2 } },
+    { "expect"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__expectCallback, 1 } },
+    { "it"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__itCallback, 2 } },
+    { "test"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, BunTestModulePrototype__testCallback, 2 } }
+};
+
+const ClassInfo JSBunTestModulePrototype::s_info = { "BunTestModule"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSBunTestModulePrototype) };
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__afterAllCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__afterAllCallback(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__afterEachCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__afterEachCallback(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__beforeAllCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__beforeAllCallback(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__beforeEachCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__beforeEachCallback(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__describeCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__createDescribe(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__expectCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__createExpect(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__itCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__createTest(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(BunTestModulePrototype__testCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSBunTestModule* thisObject = jsDynamicCast<JSBunTestModule*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return BunTestModulePrototype__createTest(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+void JSBunTestModulePrototype::finishCreation(JSC::VM& vm, JSC::JSGlobalObject* globalObject)
+{
+    Base::finishCreation(vm);
+    reifyStaticProperties(vm, JSBunTestModule::info(), JSBunTestModulePrototypeTableValues, *this);
+    JSC_TO_STRING_TAG_WITHOUT_TRANSITION();
+}
+
+JSBunTestModule::~JSBunTestModule()
+{
+    if (m_ctx) {
+        BunTestModuleClass__finalize(m_ctx);
+    }
+}
+void JSBunTestModule::destroy(JSCell* cell)
+{
+    static_cast<JSBunTestModule*>(cell)->JSBunTestModule::~JSBunTestModule();
+}
+
+const ClassInfo JSBunTestModule::s_info = { "BunTestModule"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSBunTestModule) };
+
+void JSBunTestModule::finishCreation(VM& vm)
+{
+    Base::finishCreation(vm);
+    ASSERT(inherits(info()));
+}
+
+JSBunTestModule* JSBunTestModule::create(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure, void* ctx)
+{
+    JSBunTestModule* ptr = new (NotNull, JSC::allocateCell<JSBunTestModule>(vm)) JSBunTestModule(vm, structure, ctx);
+    ptr->finishCreation(vm);
+    return ptr;
+}
+
+extern "C" void* BunTestModule__fromJS(JSC::EncodedJSValue value)
+{
+    JSC::JSValue decodedValue = JSC::JSValue::decode(value);
+    if (decodedValue.isEmpty() || !decodedValue.isCell())
+        return nullptr;
+
+    JSC::JSCell* cell = decodedValue.asCell();
+    JSBunTestModule* object = JSC::jsDynamicCast<JSBunTestModule*>(cell);
+
+    if (!object)
+        return nullptr;
+
+    return object->wrapped();
+}
+
+extern "C" bool BunTestModule__dangerouslySetPtr(JSC::EncodedJSValue value, void* ptr)
+{
+    JSBunTestModule* object = JSC::jsDynamicCast<JSBunTestModule*>(JSValue::decode(value));
+    if (!object)
+        return false;
+
+    object->m_ctx = ptr;
+    return true;
+}
+
+extern "C" const size_t BunTestModule__ptrOffset = JSBunTestModule::offsetOfWrapped();
+
+void JSBunTestModule::analyzeHeap(JSCell* cell, HeapAnalyzer& analyzer)
+{
+    auto* thisObject = jsCast<JSBunTestModule*>(cell);
+    if (void* wrapped = thisObject->wrapped()) {
+        // if (thisObject->scriptExecutionContext())
+        //     analyzer.setLabelForCell(cell, "url " + thisObject->scriptExecutionContext()->url().string());
+    }
+    Base::analyzeHeap(cell, analyzer);
+}
+
+JSObject* JSBunTestModule::createPrototype(VM& vm, JSDOMGlobalObject* globalObject)
+{
+    return JSBunTestModulePrototype::create(vm, globalObject, JSBunTestModulePrototype::createStructure(vm, globalObject, globalObject->objectPrototype()));
+}
+
+extern "C" EncodedJSValue BunTestModule__create(Zig::GlobalObject* globalObject, void* ptr)
+{
+    auto& vm = globalObject->vm();
+    JSC::Structure* structure = globalObject->JSBunTestModuleStructure();
+    JSBunTestModule* instance = JSBunTestModule::create(vm, globalObject, structure, ptr);
+
+    return JSValue::encode(instance);
+}
 class JSCryptoHasherPrototype final : public JSC::JSNonFinalObject {
 public:
     using Base = JSC::JSNonFinalObject;
@@ -2054,6 +2425,250 @@ void JSCryptoHasher::visitOutputConstraintsImpl(JSCell* cell, Visitor& visitor)
 }
 
 DEFINE_VISIT_OUTPUT_CONSTRAINTS(JSCryptoHasher);
+class JSDescribeScopePrototype final : public JSC::JSNonFinalObject {
+public:
+    using Base = JSC::JSNonFinalObject;
+
+    static JSDescribeScopePrototype* create(JSC::VM& vm, JSGlobalObject* globalObject, JSC::Structure* structure)
+    {
+        JSDescribeScopePrototype* ptr = new (NotNull, JSC::allocateCell<JSDescribeScopePrototype>(vm)) JSDescribeScopePrototype(vm, globalObject, structure);
+        ptr->finishCreation(vm, globalObject);
+        return ptr;
+    }
+
+    DECLARE_INFO;
+    template<typename CellType, JSC::SubspaceAccess>
+    static JSC::GCClient::IsoSubspace* subspaceFor(JSC::VM& vm)
+    {
+        return &vm.plainObjectSpace();
+    }
+    static JSC::Structure* createStructure(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::JSValue prototype)
+    {
+        return JSC::Structure::create(vm, globalObject, prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags), info());
+    }
+
+private:
+    JSDescribeScopePrototype(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure)
+        : Base(vm, structure)
+    {
+    }
+
+    void finishCreation(JSC::VM&, JSC::JSGlobalObject*);
+};
+
+extern "C" void* DescribeScopeClass__construct(JSC::JSGlobalObject*, JSC::CallFrame*);
+JSC_DECLARE_CUSTOM_GETTER(jsDescribeScopeConstructor);
+extern "C" void DescribeScopeClass__finalize(void*);
+extern "C" JSC_DECLARE_HOST_FUNCTION(DescribeScopeClass__call);
+
+extern "C" EncodedJSValue DescribeScopePrototype__only(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(DescribeScopePrototype__onlyCallback);
+
+extern "C" EncodedJSValue DescribeScopePrototype__skip(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(DescribeScopePrototype__skipCallback);
+
+STATIC_ASSERT_ISO_SUBSPACE_SHARABLE(JSDescribeScopePrototype, JSDescribeScopePrototype::Base);
+
+static const HashTableValue JSDescribeScopePrototypeTableValues[] = {
+    { "only"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, DescribeScopePrototype__onlyCallback, 2 } },
+    { "skip"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, DescribeScopePrototype__skipCallback, 2 } }
+};
+
+const ClassInfo JSDescribeScopePrototype::s_info = { "DescribeScope"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSDescribeScopePrototype) };
+
+JSC_DEFINE_CUSTOM_GETTER(jsDescribeScopeConstructor, (JSGlobalObject * lexicalGlobalObject, EncodedJSValue thisValue, PropertyName))
+{
+    VM& vm = JSC::getVM(lexicalGlobalObject);
+    auto throwScope = DECLARE_THROW_SCOPE(vm);
+    auto* globalObject = reinterpret_cast<Zig::GlobalObject*>(lexicalGlobalObject);
+    auto* prototype = jsDynamicCast<JSDescribeScopePrototype*>(JSValue::decode(thisValue));
+
+    if (UNLIKELY(!prototype))
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    return JSValue::encode(globalObject->JSDescribeScopeConstructor());
+}
+
+JSC_DEFINE_HOST_FUNCTION(DescribeScopePrototype__onlyCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSDescribeScope* thisObject = jsDynamicCast<JSDescribeScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return DescribeScopePrototype__only(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(DescribeScopePrototype__skipCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSDescribeScope* thisObject = jsDynamicCast<JSDescribeScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return DescribeScopePrototype__skip(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+extern "C" void DescribeScopePrototype__callbackValueSetCachedValue(JSC::EncodedJSValue thisValue, JSC::JSGlobalObject* globalObject, JSC::EncodedJSValue value)
+{
+    auto& vm = globalObject->vm();
+    auto* thisObject = jsCast<JSDescribeScope*>(JSValue::decode(thisValue));
+    thisObject->m_callbackValue.set(vm, thisObject, JSValue::decode(value));
+}
+
+extern "C" EncodedJSValue DescribeScopePrototype__callbackValueGetCachedValue(JSC::EncodedJSValue thisValue)
+{
+    auto* thisObject = jsCast<JSDescribeScope*>(JSValue::decode(thisValue));
+    return JSValue::encode(thisObject->m_callbackValue.get());
+}
+
+void JSDescribeScopePrototype::finishCreation(JSC::VM& vm, JSC::JSGlobalObject* globalObject)
+{
+    Base::finishCreation(vm);
+    reifyStaticProperties(vm, JSDescribeScope::info(), JSDescribeScopePrototypeTableValues, *this);
+    JSC_TO_STRING_TAG_WITHOUT_TRANSITION();
+}
+
+JSDescribeScope::~JSDescribeScope()
+{
+    if (m_ctx) {
+        DescribeScopeClass__finalize(m_ctx);
+    }
+}
+void JSDescribeScope::destroy(JSCell* cell)
+{
+    static_cast<JSDescribeScope*>(cell)->JSDescribeScope::~JSDescribeScope();
+}
+
+const ClassInfo JSDescribeScope::s_info = { "DescribeScope"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSDescribeScope) };
+
+void JSDescribeScope::finishCreation(VM& vm)
+{
+    Base::finishCreation(vm);
+    ASSERT(inherits(info()));
+}
+
+JSDescribeScope* JSDescribeScope::create(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure, void* ctx)
+{
+    JSDescribeScope* ptr = new (NotNull, JSC::allocateCell<JSDescribeScope>(vm)) JSDescribeScope(vm, structure, ctx);
+    ptr->finishCreation(vm);
+    return ptr;
+}
+
+extern "C" void* DescribeScope__fromJS(JSC::EncodedJSValue value)
+{
+    JSC::JSValue decodedValue = JSC::JSValue::decode(value);
+    if (decodedValue.isEmpty() || !decodedValue.isCell())
+        return nullptr;
+
+    JSC::JSCell* cell = decodedValue.asCell();
+    JSDescribeScope* object = JSC::jsDynamicCast<JSDescribeScope*>(cell);
+
+    if (!object)
+        return nullptr;
+
+    return object->wrapped();
+}
+
+extern "C" bool DescribeScope__dangerouslySetPtr(JSC::EncodedJSValue value, void* ptr)
+{
+    JSDescribeScope* object = JSC::jsDynamicCast<JSDescribeScope*>(JSValue::decode(value));
+    if (!object)
+        return false;
+
+    object->m_ctx = ptr;
+    return true;
+}
+
+extern "C" const size_t DescribeScope__ptrOffset = JSDescribeScope::offsetOfWrapped();
+
+void JSDescribeScope::analyzeHeap(JSCell* cell, HeapAnalyzer& analyzer)
+{
+    auto* thisObject = jsCast<JSDescribeScope*>(cell);
+    if (void* wrapped = thisObject->wrapped()) {
+        // if (thisObject->scriptExecutionContext())
+        //     analyzer.setLabelForCell(cell, "url " + thisObject->scriptExecutionContext()->url().string());
+    }
+    Base::analyzeHeap(cell, analyzer);
+}
+
+JSObject* JSDescribeScope::createPrototype(VM& vm, JSDOMGlobalObject* globalObject)
+{
+    return JSDescribeScopePrototype::create(vm, globalObject, JSDescribeScopePrototype::createStructure(vm, globalObject, globalObject->objectPrototype()));
+}
+
+extern "C" EncodedJSValue DescribeScope__create(Zig::GlobalObject* globalObject, void* ptr)
+{
+    auto& vm = globalObject->vm();
+    JSC::Structure* structure = globalObject->JSDescribeScopeStructure();
+    JSDescribeScope* instance = JSDescribeScope::create(vm, globalObject, structure, ptr);
+
+    return JSValue::encode(instance);
+}
+
+template<typename Visitor>
+void JSDescribeScope::visitChildrenImpl(JSCell* cell, Visitor& visitor)
+{
+    JSDescribeScope* thisObject = jsCast<JSDescribeScope*>(cell);
+    ASSERT_GC_OBJECT_INHERITS(thisObject, info());
+    Base::visitChildren(thisObject, visitor);
+    visitor.append(thisObject->m_callbackValue);
+}
+
+DEFINE_VISIT_CHILDREN(JSDescribeScope);
+
+template<typename Visitor>
+void JSDescribeScope::visitAdditionalChildren(Visitor& visitor)
+{
+    JSDescribeScope* thisObject = this;
+    ASSERT_GC_OBJECT_INHERITS(thisObject, info());
+    visitor.append(thisObject->m_callbackValue);
+}
+
+DEFINE_VISIT_ADDITIONAL_CHILDREN(JSDescribeScope);
+
+template<typename Visitor>
+void JSDescribeScope::visitOutputConstraintsImpl(JSCell* cell, Visitor& visitor)
+{
+    JSDescribeScope* thisObject = jsCast<JSDescribeScope*>(cell);
+    ASSERT_GC_OBJECT_INHERITS(thisObject, info());
+    thisObject->visitAdditionalChildren<Visitor>(visitor);
+}
+
+DEFINE_VISIT_OUTPUT_CONSTRAINTS(JSDescribeScope);
 class JSDirentPrototype final : public JSC::JSNonFinalObject {
 public:
     using Base = JSC::JSNonFinalObject;
@@ -16549,6 +17164,241 @@ void JSTLSSocket::visitOutputConstraintsImpl(JSCell* cell, Visitor& visitor)
 }
 
 DEFINE_VISIT_OUTPUT_CONSTRAINTS(JSTLSSocket);
+class JSTestScopePrototype final : public JSC::JSNonFinalObject {
+public:
+    using Base = JSC::JSNonFinalObject;
+
+    static JSTestScopePrototype* create(JSC::VM& vm, JSGlobalObject* globalObject, JSC::Structure* structure)
+    {
+        JSTestScopePrototype* ptr = new (NotNull, JSC::allocateCell<JSTestScopePrototype>(vm)) JSTestScopePrototype(vm, globalObject, structure);
+        ptr->finishCreation(vm, globalObject);
+        return ptr;
+    }
+
+    DECLARE_INFO;
+    template<typename CellType, JSC::SubspaceAccess>
+    static JSC::GCClient::IsoSubspace* subspaceFor(JSC::VM& vm)
+    {
+        return &vm.plainObjectSpace();
+    }
+    static JSC::Structure* createStructure(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::JSValue prototype)
+    {
+        return JSC::Structure::create(vm, globalObject, prototype, JSC::TypeInfo(JSC::ObjectType, StructureFlags), info());
+    }
+
+private:
+    JSTestScopePrototype(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure)
+        : Base(vm, structure)
+    {
+    }
+
+    void finishCreation(JSC::VM&, JSC::JSGlobalObject*);
+};
+
+extern "C" void TestScopeClass__finalize(void*);
+
+extern "C" EncodedJSValue TestScopePrototype__only(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(TestScopePrototype__onlyCallback);
+
+extern "C" EncodedJSValue TestScopePrototype__skip(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(TestScopePrototype__skipCallback);
+
+extern "C" EncodedJSValue TestScopePrototype__todo(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+JSC_DECLARE_HOST_FUNCTION(TestScopePrototype__todoCallback);
+
+STATIC_ASSERT_ISO_SUBSPACE_SHARABLE(JSTestScopePrototype, JSTestScopePrototype::Base);
+
+static const HashTableValue JSTestScopePrototypeTableValues[] = {
+    { "only"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, TestScopePrototype__onlyCallback, 2 } },
+    { "skip"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, TestScopePrototype__skipCallback, 2 } },
+    { "todo"_s, static_cast<unsigned>(JSC::PropertyAttribute::Function | PropertyAttribute::DontDelete), NoIntrinsic, { HashTableValue::NativeFunctionType, TestScopePrototype__todoCallback, 2 } }
+};
+
+const ClassInfo JSTestScopePrototype::s_info = { "TestScope"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSTestScopePrototype) };
+
+extern "C" JSC::EncodedJSValue TestScopePrototype__call(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+
+JSC::EncodedJSValue JSC_HOST_CALL_ATTRIBUTES JSTestScope::call(JSC::JSGlobalObject* globalObject, JSC::CallFrame* callFrame)
+{
+    JSC::VM& vm = globalObject->vm();
+    auto throwScope = DECLARE_THROW_SCOPE(vm);
+
+    JSTestScope* thisValue = jsDynamicCast<JSTestScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisValue) || !thisValue->wrapped()) {
+        throwTypeError(globalObject, throwScope, "Expected TestScope for 'this'"_s);
+        return JSValue::encode(JSC::jsUndefined());
+    }
+
+    JSC::EnsureStillAliveScope ensureStillAlive(thisValue);
+    void* ptr = thisValue->wrapped();
+    return TestScopePrototype__call(ptr, globalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(TestScopePrototype__onlyCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSTestScope* thisObject = jsDynamicCast<JSTestScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return TestScopePrototype__only(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(TestScopePrototype__skipCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSTestScope* thisObject = jsDynamicCast<JSTestScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return TestScopePrototype__skip(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+JSC_DEFINE_HOST_FUNCTION(TestScopePrototype__todoCallback, (JSGlobalObject * lexicalGlobalObject, CallFrame* callFrame))
+{
+    auto& vm = lexicalGlobalObject->vm();
+
+    JSTestScope* thisObject = jsDynamicCast<JSTestScope*>(callFrame->thisValue());
+
+    if (UNLIKELY(!thisObject)) {
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        return throwVMTypeError(lexicalGlobalObject, throwScope);
+    }
+
+    JSC::EnsureStillAliveScope thisArg = JSC::EnsureStillAliveScope(thisObject);
+
+#ifdef BUN_DEBUG
+    /** View the file name of the JS file that called this function
+     * from a debugger */
+    SourceOrigin sourceOrigin = callFrame->callerSourceOrigin(vm);
+    const char* fileName = sourceOrigin.string().utf8().data();
+    static const char* lastFileName = nullptr;
+    if (lastFileName != fileName) {
+        lastFileName = fileName;
+    }
+#endif
+
+    return TestScopePrototype__todo(thisObject->wrapped(), lexicalGlobalObject, callFrame);
+}
+
+void JSTestScopePrototype::finishCreation(JSC::VM& vm, JSC::JSGlobalObject* globalObject)
+{
+    Base::finishCreation(vm);
+    reifyStaticProperties(vm, JSTestScope::info(), JSTestScopePrototypeTableValues, *this);
+    JSC_TO_STRING_TAG_WITHOUT_TRANSITION();
+}
+
+JSTestScope::~JSTestScope()
+{
+    if (m_ctx) {
+        TestScopeClass__finalize(m_ctx);
+    }
+}
+void JSTestScope::destroy(JSCell* cell)
+{
+    static_cast<JSTestScope*>(cell)->JSTestScope::~JSTestScope();
+}
+
+const ClassInfo JSTestScope::s_info = { "TestScope"_s, &Base::s_info, nullptr, nullptr, CREATE_METHOD_TABLE(JSTestScope) };
+
+void JSTestScope::finishCreation(VM& vm)
+{
+    Base::finishCreation(vm);
+    ASSERT(inherits(info()));
+}
+
+JSTestScope* JSTestScope::create(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure, void* ctx)
+{
+    JSTestScope* ptr = new (NotNull, JSC::allocateCell<JSTestScope>(vm)) JSTestScope(vm, structure, ctx);
+    ptr->finishCreation(vm);
+    return ptr;
+}
+
+extern "C" void* TestScope__fromJS(JSC::EncodedJSValue value)
+{
+    JSC::JSValue decodedValue = JSC::JSValue::decode(value);
+    if (decodedValue.isEmpty() || !decodedValue.isCell())
+        return nullptr;
+
+    JSC::JSCell* cell = decodedValue.asCell();
+    JSTestScope* object = JSC::jsDynamicCast<JSTestScope*>(cell);
+
+    if (!object)
+        return nullptr;
+
+    return object->wrapped();
+}
+
+extern "C" bool TestScope__dangerouslySetPtr(JSC::EncodedJSValue value, void* ptr)
+{
+    JSTestScope* object = JSC::jsDynamicCast<JSTestScope*>(JSValue::decode(value));
+    if (!object)
+        return false;
+
+    object->m_ctx = ptr;
+    return true;
+}
+
+extern "C" const size_t TestScope__ptrOffset = JSTestScope::offsetOfWrapped();
+
+void JSTestScope::analyzeHeap(JSCell* cell, HeapAnalyzer& analyzer)
+{
+    auto* thisObject = jsCast<JSTestScope*>(cell);
+    if (void* wrapped = thisObject->wrapped()) {
+        // if (thisObject->scriptExecutionContext())
+        //     analyzer.setLabelForCell(cell, "url " + thisObject->scriptExecutionContext()->url().string());
+    }
+    Base::analyzeHeap(cell, analyzer);
+}
+
+JSObject* JSTestScope::createPrototype(VM& vm, JSDOMGlobalObject* globalObject)
+{
+    return JSTestScopePrototype::create(vm, globalObject, JSTestScopePrototype::createStructure(vm, globalObject, globalObject->objectPrototype()));
+}
+
+extern "C" EncodedJSValue TestScope__create(Zig::GlobalObject* globalObject, void* ptr)
+{
+    auto& vm = globalObject->vm();
+    JSC::Structure* structure = globalObject->JSTestScopeStructure();
+    JSTestScope* instance = JSTestScope::create(vm, globalObject, structure, ptr);
+
+    return JSValue::encode(instance);
+}
 class JSTextDecoderPrototype final : public JSC::JSNonFinalObject {
 public:
     using Base = JSC::JSNonFinalObject;

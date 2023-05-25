@@ -1,8 +1,10 @@
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBlob;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBlobConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBuildArtifact;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBuildMessage;
-std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBuildMessageConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForCryptoHasher;
-std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForCryptoHasherConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForDirent;
+std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBuildMessageConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForBunTestModule;
+std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForCryptoHasher;
+std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForCryptoHasherConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForDescribeScope;
+std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForDirent;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForDirentConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForExpect;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForExpectConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForExpectAny;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForFileSystemRouter;
@@ -25,6 +27,7 @@ std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForServerWebSocketConstru
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForStatsConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForSubprocess;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTCPSocket;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTLSSocket;
+std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTestScope;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTextDecoder;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTextDecoderConstructor;std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTimeout;
 std::unique_ptr<GCClient::IsoSubspace> m_clientSubspaceForTranspiler;

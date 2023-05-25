@@ -709,6 +709,34 @@ function renderFieldsImpl(
 ) {
   const rows: string[] = [];
 
+  if (obj.fn) {
+    rows.push(`
+    extern "C" JSC::EncodedJSValue ${symbolName(
+      typeName,
+      "call",
+    )}(void* ptr, JSC::JSGlobalObject* lexicalGlobalObject, JSC::CallFrame* callFrame);
+
+    JSC::EncodedJSValue JSC_HOST_CALL_ATTRIBUTES ${className(
+      typeName,
+    )}::call(JSC::JSGlobalObject* globalObject, JSC::CallFrame* callFrame)
+    {
+        JSC::VM &vm = globalObject->vm();
+        auto throwScope = DECLARE_THROW_SCOPE(vm);
+        
+        ${className(typeName)}* thisValue = jsDynamicCast<${className(typeName)}*>(callFrame->thisValue());
+
+        if (UNLIKELY(!thisValue) || !thisValue->wrapped()) {
+            throwTypeError(globalObject, throwScope, "Expected ${typeName} for 'this'"_s);
+            return JSValue::encode(JSC::jsUndefined());
+        }
+        
+        JSC::EnsureStillAliveScope ensureStillAlive(thisValue);
+        void* ptr = thisValue->wrapped();
+        return ${symbolName(typeName, "call")}(ptr, globalObject, callFrame);
+    }
+    `);
+  }
+
   if (obj.construct) {
     rows.push(`
 
@@ -892,10 +920,15 @@ function generateClassHeader(typeName, obj: ClassDefinition) {
       `;
   }
 
+  let BaseClass = "JSC::JSDestructibleObject";
+  if (obj.fn) {
+    BaseClass = "JSC::InternalFunction";
+  }
+
   return `
-  class ${name} final : public JSC::JSDestructibleObject {
+  class ${name} final : public ${BaseClass} {
     public:
-        using Base = JSC::JSDestructibleObject;
+        using Base = ${BaseClass};
         static ${name}* create(JSC::VM& vm, JSC::JSGlobalObject* globalObject, JSC::Structure* structure, void* ctx);
     
         DECLARE_EXPORT_INFO;
@@ -942,9 +975,10 @@ function generateClassHeader(typeName, obj: ClassDefinition) {
     
         void* m_ctx { nullptr };
 
+        static JSC::EncodedJSValue JSC_HOST_CALL_ATTRIBUTES call(JSC::JSGlobalObject*, JSC::CallFrame*);
             
         ${name}(JSC::VM& vm, JSC::Structure* structure, void* sinkPtr)
-            : Base(vm, structure)
+            : ${!obj.fn ? "Base(vm, structure)" : `Base(vm, structure, call, call)`}
         {
             m_ctx = sinkPtr;
             ${weakInit.trim()}
@@ -1198,6 +1232,7 @@ function generateZig(
     noConstructor = false,
     estimatedSize,
     call = false,
+    fn = false,
     values = [],
     hasPendingActivity = false,
   } = {} as ClassDefinition,
@@ -1210,6 +1245,10 @@ function generateZig(
 
   if (call) {
     exports.set(`call`, classSymbolName(typeName, "call"));
+  }
+
+  if (fn) {
+    exports.set(`call`, symbolName(typeName, "call"));
   }
 
   if (finalize) {
@@ -1374,6 +1413,14 @@ function generateZig(
       if (@TypeOf(${typeName}.call) != StaticCallbackType) 
       @compileLog(
         "Expected ${typeName}.call to be a static callback"
+      );`;
+    }
+
+    if (!!fn) {
+      output += `
+      if (@TypeOf(${typeName}.call) != CallbackType) 
+      @compileLog(
+        "Expected ${typeName}.call to be a callback"
       );`;
     }
 

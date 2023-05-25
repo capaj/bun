@@ -41,6 +41,11 @@ export interface ClassDefinition {
 
   configurable?: boolean;
   enumerable?: boolean;
+
+  /**
+   * extend from a JSInternalFunction instead of a JSDestructibleObject
+   */
+  fn?: boolean;
 }
 
 export interface CustomField {
@@ -58,6 +63,7 @@ export function define(
     estimatedSize = false,
     call = false,
     construct = false,
+    fn = false,
     ...rest
   } = {} as ClassDefinition,
 ): ClassDefinition {
@@ -66,6 +72,7 @@ export function define(
     call,
     construct,
     estimatedSize,
+    fn,
     values,
     klass: Object.fromEntries(Object.entries(klass).sort(([a], [b]) => a.localeCompare(b))),
     proto: Object.fromEntries(Object.entries(proto).sort(([a], [b]) => a.localeCompare(b))),
